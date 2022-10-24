@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/ic_dashboard"
+
+        />
+
+    <item
+        android:id="@+id/goal"
+        android:title="Goal"
+        android:icon="@drawable/ic_statistics"
+
+        />
+
+    <item
+        android:id="@+id/transaction"
+        android:title="Transactions"
+        android:icon="@drawable/ic_transactions"
+
+        />
+
+    <item
+        android:id="@+id/user"
+        android:title="User"
+        android:icon="@drawable/ic_user"
+
+        />
+
+</menu>

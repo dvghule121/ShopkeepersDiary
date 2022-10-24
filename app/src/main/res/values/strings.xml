@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">SB_stores</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <array name="categories">
+        <item>Steel_and_Aluminium_utensils</item>
+        <item>Copper_and_brass_utensils</item>
+        <item>Electronics_utensils</item>
+        <item>Cookware_utensils</item>
+        <item>Plastic_and_Fiber_utensils</item>
+        <item>Peti_and_Koti</item>
+        <item>Tiffin_box</item>
+        <item>Furniture</item>
+        <item>Daily_Utensis</item>
+        <item>Others</item>
+    </array>
+</resources>

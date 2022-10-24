@@ -1,0 +1,44 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Slem" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/grey</item>
+        <item name="colorOnPrimary">@color/teal_200</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/yellow_light</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="text_color_chart">
+        <item name="color">@color/white</item>
+    </style>
+
+    <style name="lightTheme">
+        <item name="android:background">@color/app_background_dark</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cardBackgroundColor">@color/black</item>
+
+    </style>
+
+    <style name="PrimaryText">
+        <item name="android:textColor">@color/textPrimaryDark</item>
+
+    </style>
+
+    <style name="SecondaryText">
+        <item name="android:textColor">@color/textSecondaryDark</item>
+
+    </style>
+
+    <style name="Cards">
+        <item name="cardBackgroundColor">#3C3C3C</item>
+    </style>
+
+    <style name="tab_style">
+        <item name="cardBackgroundColor">@color/blue</item>
+    </style>
+</resources>
