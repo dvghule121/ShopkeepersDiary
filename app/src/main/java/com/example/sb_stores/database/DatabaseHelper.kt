@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [product_to_sale::class, Sales::class], version = 1)
+@Database(entities = [product_to_sale::class, Sales::class, Category::class, Year::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun apiResponseDao(): transactionDAO

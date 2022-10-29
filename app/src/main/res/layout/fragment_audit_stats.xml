@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".graphs.audit_stats">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="48dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="profit"
+                    app:layout_constraintEnd_toEndOf="@+id/profit_month"
+                    app:layout_constraintTop_toBottomOf="@+id/profit_month" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="60dp"
+                    android:text="sale"
+                    app:layout_constraintEnd_toStartOf="@+id/textView17"
+                    app:layout_constraintTop_toBottomOf="@+id/profit_month" />
+
+                <TextView
+                    android:id="@+id/profit_month"
+                    style="@style/SecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="32dp"
+                    android:text="Sale Date Wise"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/bar_view" />
+
+                <Button
+                    android:id="@+id/check_more"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="24dp"
+                    android:text="Check out more"
+                    app:cornerRadius="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/data_desc_view" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/bar_view"
+                    android:layout_width="0dp"
+                    android:layout_height="256dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/bar_y_max"
+                    app:layout_constraintTop_toBottomOf="@+id/month_spinner" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/data_desc_view"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
+                    app:layout_constraintBottom_toTopOf="@+id/check_more"
+                    app:layout_constraintEnd_toEndOf="@+id/profit_month"
+                    app:layout_constraintStart_toStartOf="@+id/profit_month"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                <Spinner
+                    android:id="@+id/month_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/input_box"
+                    android:padding="14dp"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toStartOf="@+id/spinner_filter"
+                    app:layout_constraintTop_toTopOf="@+id/spinner_filter" />
+
+                <TextView
+                    android:id="@+id/bar_Y_50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="5000"
+                    app:layout_constraintEnd_toEndOf="@+id/bar_Y_75"
+                    app:layout_constraintStart_toStartOf="@+id/bar_Y_75"
+                    app:layout_constraintTop_toBottomOf="@+id/bar_Y_75" />
+
+                <TextView
+                    android:id="@+id/bar_Y_25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="2500"
+                    app:layout_constraintEnd_toEndOf="@+id/bar_Y_50"
+                    app:layout_constraintStart_toStartOf="@+id/bar_Y_50"
+                    app:layout_constraintTop_toBottomOf="@+id/bar_Y_50" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="0"
+                    app:layout_constraintEnd_toEndOf="@+id/bar_Y_25"
+                    app:layout_constraintStart_toStartOf="@+id/bar_Y_25"
+                    app:layout_constraintTop_toBottomOf="@+id/bar_Y_25" />
+
+                <TextView
+                    android:id="@+id/bar_Y_75"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="7500"
+                    app:layout_constraintEnd_toEndOf="@+id/bar_y_max"
+                    app:layout_constraintStart_toStartOf="@+id/bar_y_max"
+                    app:layout_constraintTop_toBottomOf="@+id/bar_y_max" />
+
+                <TextView
+                    android:id="@+id/bar_y_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="10000"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/bar_view" />
+
+                <Spinner
+                    android:id="@+id/spinner_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/input_box"
+                    android:entries="@array/filter"
+                    android:padding="14dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="label"
+                    app:layout_constraintStart_toStartOf="@+id/profit_month"
+                    app:layout_constraintTop_toBottomOf="@+id/profit_month" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

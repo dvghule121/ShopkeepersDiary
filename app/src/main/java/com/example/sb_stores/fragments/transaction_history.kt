@@ -7,20 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.viewpager.widget.ViewPager
 import com.example.sb_stores.MainActivity
-import com.example.sb_stores.MyAdapter
+import com.example.sb_stores.adapters.MyAdapter
 import com.example.sb_stores.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.Month
-import java.time.YearMonth
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match

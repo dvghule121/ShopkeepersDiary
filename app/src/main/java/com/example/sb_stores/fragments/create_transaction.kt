@@ -1,13 +1,17 @@
 package com.example.sb_stores.fragments
 
+import android.R.string
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.get
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import com.example.sb_stores.MainActivity
 import com.example.sb_stores.R
 import com.example.sb_stores.database.AppDatabase
@@ -18,6 +22,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.sql.Time
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +43,8 @@ class create_transaction :  Fragment() {
     private var calendar : Calendar? = null
     private var time : Time? = null
     private var date:String? = null
+    private var categories = ArrayList<String>()
+    private var category_spinner :Spinner? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +56,7 @@ class create_transaction :  Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,32 +65,116 @@ class create_transaction :  Fragment() {
         val view =  inflater.inflate(R.layout.fragment_create_transaction, container, false)
         val act = activity as MainActivity
         calendar = Calendar.getInstance()
+        category_spinner = view.findViewById<Spinner>(R.id.category)
 
+        GlobalScope.launch{
+            val mydb_ = AppDatabase.getDatabase(requireContext())
+            val categoryList = mydb_.salesDao().getCategoryList()
+
+            categoryList.forEach {
+                categories.add(it.category_name)
+                Log.d("TAG", "onCreateView: $categories")
+            }
+            Log.d("TAG", "onCreateView: ")
+
+
+            val cat_adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
+            cat_adapter.setDropDownViewResource((android.R.layout.simple_spinner_dropdown_item))
+            category_spinner!!.adapter = cat_adapter
+        }
 
         view.findViewById<ImageButton>(R.id.choose_time).setOnClickListener {
             showTimePicker()
         }
 
+        view.findViewById<TextView>(R.id.time_choosen4).setOnClickListener {
+            showTimePicker()
+        }
+
+
 
         view.findViewById<Button>(R.id.add_task_to_data).setOnClickListener {
             GlobalScope.launch {
-            val mydb_ = AppDatabase.getDatabase(requireContext())
-            val mydb = mydb_.apiResponseDao()
+                val name = view.findViewById<EditText>(R.id.name).text
+                val qtty = view.findViewById<EditText>(R.id.product_qtty)
+                val price = view.findViewById<EditText>(R.id.product_price)
 
-            val name = view.findViewById<EditText>(R.id.name).text.toString()
-            val qtty = view.findViewById<EditText>(R.id.product_qtty).text.toString().toFloat()
-            val price = view.findViewById<EditText>(R.id.product_price).text.toString().toInt()
-            val category = view.findViewById<Spinner>(R.id.category).selectedItem.toString()
-            val mrp = view.findViewById<EditText>(R.id.productMRP).text.toString().toInt()
-            val date = date
+                val category = category_spinner!!.selectedItem
+                val mrp = view.findViewById<EditText>(R.id.productMRP).text.toString()
+                val date = date
+                if (name.toString() != "" && price.text.toString() != "" && mrp != "" && date != null && category != null){
+                val mydb_ = AppDatabase.getDatabase(requireContext())
+                val mydb = mydb_.apiResponseDao()
 
 
-            val id = mydb.insertData(product_to_sale(0, name, mrp,price, qtty,date.toString(), calendar!!.time.toString(),category))
-                mydb_.salesDao().updateData(date.toString(), (qtty * price).toInt() )
-                mydb_.salesDao().updateCategoryData(date.toString(),(qtty * price).toInt(), category )
+
+
+
+
+
+                val id = mydb.insertData(
+                    product_to_sale(
+                        0,
+                        name.toString(),
+                        (mrp.toInt() * qtty.text.toString().toFloat()).toInt(),
+                        price.text.toString().toInt(),
+                        qtty.text.toString().toFloat(),
+                        date.toString(),
+                        calendar!!.time.toString(),
+                        category.toString()
+                    )
+
+                )
+
+
+                    mydb_.salesDao().updateData(date.toString(), (qtty.text.toString().toFloat() * price.text.toString().toInt()).toInt(),(mrp.toInt() * qtty.text.toString().toFloat()).toInt())
+                    mydb_.salesDao()
+                        .updateCategoryData(date.toString(), (qtty.text.toString().toFloat() * price.text.toString().toInt()).toInt(), category.toString())
+                    act.change(transaction_history())
+                }
+                else{
+                    act.runOnUiThread{
+                        Toast.makeText(requireActivity(), "Please fill all the fields", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
             }
 
-            act.change(dashboard())
+
+
+
+
+        }
+        val addCategoryDialog =
+            Dialog(requireContext(), androidx.appcompat.R.style.AlertDialog_AppCompat_Light)
+        addCategoryDialog.setContentView(R.layout.add_category_dialog)
+
+        view.findViewById<Button>(R.id.add_category).setOnClickListener {
+            addCategoryDialog.show()
+
+
+        }
+
+        addCategoryDialog.findViewById<Button>(R.id.add_category).setOnClickListener {
+            kotlinx.coroutines.GlobalScope.launch {
+                var category =
+                    addCategoryDialog.findViewById<android.widget.EditText>(com.example.sb_stores.R.id.category_name).text.toString()
+                category = category.replace("\\s".toRegex(), "_")
+                val mydb_ = com.example.sb_stores.database.AppDatabase.getDatabase(requireContext())
+                mydb_.salesDao().addCategoryData(date.toString(), category.toString())
+                val temp=ArrayList<String>()
+
+                for (i in mydb_.salesDao().getCategoryList()){
+                    temp.add(i.category_name)
+                }
+                setData(temp)
+                addCategoryDialog.cancel()
+
+
+            }
+
+
 
 
 
@@ -89,15 +182,19 @@ class create_transaction :  Fragment() {
 
         return view
     }
+    fun setData(data: ArrayList<String>){
+        requireActivity().runOnUiThread{
+            val cat_adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, data)
+            cat_adapter.setDropDownViewResource((android.R.layout.simple_spinner_dropdown_item))
+            category_spinner!!.adapter = cat_adapter
+        }
+
+
+
+    }
 
 
     fun showTimePicker() {
-        picker = MaterialTimePicker.Builder()
-            .setTimeFormat(TimeFormat.CLOCK_12H)
-            .setHour(12)
-            .setMinute(0)
-            .setTitleText("Select Alarm Time")
-            .build()
 
         val currentYear: Int = calendar!!.get(Calendar.YEAR)
         val currentMonth: Int = calendar!!.get(Calendar.MONTH)
@@ -126,20 +223,6 @@ class create_transaction :  Fragment() {
             currentDay,
         )
         datePickerDialog.show()
-
-        picker!!.show(requireActivity().supportFragmentManager, "foxandroid")
-        picker!!.addOnPositiveButtonClickListener(View.OnClickListener {
-
-            view?.findViewById<TextView>(R.id.time_choosen)!!.text  = "${picker!!.hour}:${picker!!.minute}"
-            time = Time(picker!!.hour,picker!!.minute,0)
-
-
-            calendar!!.set(Calendar.HOUR_OF_DAY, picker!!.getHour())
-            calendar!!.set(Calendar.MINUTE, picker!!.getMinute())
-            calendar!!.set(Calendar.SECOND, 0)
-            calendar!!.set(Calendar.MILLISECOND, 0)
-
-        })
 
 
     }

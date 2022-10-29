@@ -10,12 +10,16 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.sb_stores.database.AppDatabase
 import com.example.sb_stores.database.Sales
+import com.example.sb_stores.database.Year
 import com.example.sb_stores.fragments.dashboard
+import com.example.sb_stores.fragments.stats
 import com.example.sb_stores.fragments.transaction_history
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.home -> change(dashboard())
                 R.id.transaction -> change(transaction_history())
-//                R.id.goal -> change(goals())
+                R.id.goal -> change(stats())
 //                R.id.user -> change(goal_detail())
 
             }
@@ -54,10 +58,19 @@ class MainActivity : AppCompatActivity() {
             if (daily_sale.isEmpty()) {
                 for (i in createYearDataset(LocalDate.now().year)){
                     Log.d("TAG", "onCreate: date addinf")
-                    database.salesDao().insertData(Sales(DateUtils().getDate(i), 0,0,0,0,0,0,0,0,0,0,0))
+                    database.salesDao().insertData(Sales(DateUtils().getDate(i), 0,0))
                 }
+                database.salesDao().insertYearData(Year(LocalDate.now().year.toString(), 0))
 
             }
+            else if (LocalDate.now().year != DateUtils().toLocalDate(daily_sale[daily_sale.lastIndex].date)!!.year){
+                for (i in createYearDataset(LocalDate.now().year)){
+                    Log.d("TAG", "onCreate: date addinf")
+                    database.salesDao().insertData(Sales(DateUtils().getDate(i), 0, 0))
+                }
+                database.salesDao().insertYearData(Year(LocalDate.now().year.toString(), 0))
+            }
+
 
         }
 

@@ -1,4 +1,4 @@
-package com.example.sb_stores
+package com.example.sb_stores.adapters
 
 import android.content.Context
 import android.os.Build
@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.sb_stores.fragments.transaction_page
 import java.time.LocalDate
-import java.util.*
 
 
 class MyAdapter(val date: List<LocalDate>, val myContext: Context, fm: FragmentManager, var totalTabs: Int) :

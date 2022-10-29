@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class product_to_sale(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "name")val name: String,
-    @ColumnInfo(name = "mrp")val mrp: Int,
+    @ColumnInfo(name = "purchace_price")val purchace_price: Int,
     @ColumnInfo(name = "price")val price: Int,
     @ColumnInfo(name = "qtty")val qtty: Float,
     @ColumnInfo(name = "date")val date: String,

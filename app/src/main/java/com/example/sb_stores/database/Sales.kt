@@ -10,15 +10,20 @@ data class Sales (
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "date") val date: String,
     @ColumnInfo(name = "sale") val daily_sale: Int,
-    @ColumnInfo(name = "Steel_and_Aluminium_utensils") val steel_alluminium: Int,
-    @ColumnInfo(name = "Copper_and_brass_utensils") val copper_brass: Int,
-    @ColumnInfo(name = "Electronics_utensils") val electronics: Int,
-    @ColumnInfo(name = "Cookware_utensils") val cookware: Int,
-    @ColumnInfo(name = "Plastic_and_Fiber_utensils") val plastic: Int,
-    @ColumnInfo(name = "Peti_and_Koti") val peti_koti: Int,
-    @ColumnInfo(name = "Tiffin_box") val tiffin_container: Int,
-    @ColumnInfo(name = "Furniture") val furniture: Int,
-    @ColumnInfo(name = "Daily_Utensis") val daily_appliances: Int,
-    @ColumnInfo(name = "Others") val other: Int
-        )
+    @ColumnInfo(name = "purchased") val daily_pur: Int
 
+    )
+
+@Entity(tableName = "categories")
+data class Category(
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "category_name") val category_name:String
+    )
+
+@Entity(tableName = "year")
+data class Year(
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "year") val date: String,
+    @ColumnInfo(name = "sale") val daily_sale: Int,
+
+    )

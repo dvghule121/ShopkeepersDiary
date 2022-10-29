@@ -31,7 +31,7 @@ class  transactionAdapter(val context: Context, val view :Int = R.layout.transac
         holder.name.text = product.name
         holder.total.text ="₹ " + (product.price * product.qtty).toString()
         holder.price.text ="₹ " + (product.price ).toString()
-        holder.mrp.text = "M.R.P: ₹ " + (product.mrp).toString()
+        holder.mrp.text = "M.R.P: ₹ " + (product.purchace_price).toString()
         holder.qtty.text = "Quantity: " + (product.qtty).toString()
         holder.date.text = product.time
 

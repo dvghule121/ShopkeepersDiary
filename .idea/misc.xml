@@ -5,14 +5,22 @@
       <map>
         <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/drawable-anydpi/habbits_card_bg.xml" value="0.1" />
         <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/drawable-anydpi/input_box.xml" value="0.1" />
+        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/drawable-xxhdpi/progrss_bar_state.xml" value="0.1" />
         <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/activity_main.xml" value="0.136" />
+        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/add_category_dialog.xml" value="0.2" />
+        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/bar_item.xml" value="0.4" />
         <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/card_for_date.xml" value="0.4" />
-        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/fragment_create_transaction.xml" value="0.264" />
-        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/fragment_dashboard.xml" value="0.176" />
+        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/data_desc_item.xml" value="0.264" />
+        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/fragment_add_category.xml" value="0.264" />
+        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/fragment_audit_stats.xml" value="0.264" />
+        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/fragment_create_transaction.xml" value="0.2" />
+        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/fragment_dashboard.xml" value="0.264" />
+        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/fragment_stats.xml" value="0.176" />
         <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/fragment_transaction.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/fragment_transaction_history.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/fragment_transaction_page.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/goal_card.xml" value="0.10400000000000001" />
+        <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/oadd_category_dialog.xml" value="0.1" />
         <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/layout/transaction_card.xml" value="0.264" />
         <entry key="..\:/Users/Dyno/AndroidStudioProjects/SB_stores/app/src/main/res/menu/btm_nav.xml" value="0.25" />
       </map>
@@ -23,5 +31,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.264" />
+      </ProjectState>
+    </option>
   </component>
 </project>

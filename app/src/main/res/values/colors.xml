@@ -11,6 +11,7 @@
     <color name="app_background_dark">#181818</color>
     <color name="textPrimaryLight">#ff000000</color>
     <color name="textPrimaryPiechart">#000000</color>
+    <color name="input_bg">@color/white</color>
     <color name="textPrimaryDark">#FFFFFF</color>
     <color name="textSecondaryLight">#8D373737</color>
     <color name="textSecondaryDark">#8DDFDFDF</color>

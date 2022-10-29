@@ -1,22 +1,15 @@
 package com.example.sb_stores.fragments
 
-import android.content.LocusId
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sb_stores.R
 import com.example.sb_stores.database.AppDatabase
 
-import com.example.sb_stores.database.product_to_sale
-import com.example.sb_stores.sampleAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -51,18 +44,6 @@ class transaction_page : Fragment() {
 
         val bundle = arguments
         val date = bundle!!.get("date")
-
-
-
-
-
-
-
-
-
-
-
-
 
         val view =  inflater.inflate(R.layout.fragment_transaction_page, container, false)
         val habit_view = view.findViewById<RecyclerView>(R.id.habit_view)

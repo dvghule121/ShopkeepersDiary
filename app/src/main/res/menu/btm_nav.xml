@@ -9,7 +9,7 @@
 
     <item
         android:id="@+id/goal"
-        android:title="Goal"
+        android:title="Stats"
         android:icon="@drawable/ic_statistics"
 
         />

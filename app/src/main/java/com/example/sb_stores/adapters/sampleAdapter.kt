@@ -1,4 +1,4 @@
-package com.example.sb_stores
+package com.example.sb_stores.adapters
 
 
 import android.content.Context
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sb_stores.R
 
 
 class sampleAdapter(val context: Context, val item: Int, val view :Int = R.layout.goal_card): RecyclerView.Adapter<sampleAdapterViewHolder>() {

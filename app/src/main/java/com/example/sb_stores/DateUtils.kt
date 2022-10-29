@@ -2,8 +2,10 @@ package com.example.sb_stores
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.Year
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DateUtils {
@@ -61,5 +63,16 @@ class DateUtils {
             print("{0} is not a leap year".format(year))
             return false
         }
+    }
+
+    fun toDate(date: String): Date? {
+        val format = SimpleDateFormat("dd-MM-yyyy")
+        return format.parse(date)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun toLocalDate(date: String): LocalDate? {
+        val d = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+        return d
     }
 }
