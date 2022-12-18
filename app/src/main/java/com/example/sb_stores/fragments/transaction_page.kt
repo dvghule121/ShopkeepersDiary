@@ -58,7 +58,7 @@ class transaction_page : Fragment() {
         )
 
 
-        val adapter = transactionAdapter(requireContext())
+        val adapter = transactionAdapter(requireActivity())
         adapter.setData(l)
         habit_view.adapter = adapter
 

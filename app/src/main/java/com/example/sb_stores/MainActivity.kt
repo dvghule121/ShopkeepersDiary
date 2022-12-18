@@ -1,34 +1,59 @@
 package com.example.sb_stores
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.example.sb_stores.Utils.DateUtils
 import com.example.sb_stores.database.AppDatabase
+import com.example.sb_stores.database.DBFileProvider
 import com.example.sb_stores.database.Sales
 import com.example.sb_stores.database.Year
 import com.example.sb_stores.fragments.dashboard
 import com.example.sb_stores.fragments.stats
 import com.example.sb_stores.fragments.transaction_history
+import com.example.sb_stores.fragments.user_fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.File
+import java.net.URI
 import java.time.LocalDate
-import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.io.path.toPath
 
 
 class MainActivity : AppCompatActivity() {
+    lateinit var resultLauncher : ActivityResultLauncher<Intent>
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // There are no request codes
+                val data: Intent? = result.data
+                val uri = data!!.data!!
+                val urinew = URI.create(uri.toString())
 
+
+                Log.d("TAG", "onActivityResult: Working $urinew")
+                    DBFileProvider().importDatabaseFile(this, urinew.toPath().toString())
+
+
+            }
+        }
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener {
 
@@ -36,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> change(dashboard())
                 R.id.transaction -> change(transaction_history())
                 R.id.goal -> change(stats())
-//                R.id.user -> change(goal_detail())
+                R.id.user -> change(user_fragment())
 
             }
             true
@@ -120,6 +145,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         return datalist
+    }
+
+    fun getfile(){
+        val pickFromGallery = Intent(Intent.ACTION_GET_CONTENT)
+        pickFromGallery.type = "*/.db"
+        resultLauncher.launch(pickFromGallery)
     }
 
 

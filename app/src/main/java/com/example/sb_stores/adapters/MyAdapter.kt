@@ -12,9 +12,9 @@ import com.example.sb_stores.fragments.transaction_page
 import java.time.LocalDate
 
 
-class MyAdapter(val date: List<LocalDate>, val myContext: Context, fm: FragmentManager, var totalTabs: Int) :
+class MyAdapter( val myContext: Context, fm: FragmentManager, var totalTabs: Int) :
     FragmentPagerAdapter(fm) {
-
+    var date= emptyList<LocalDate>()
     // this is for fragment tabs
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getItem(position: Int): Fragment {
@@ -38,8 +38,13 @@ class MyAdapter(val date: List<LocalDate>, val myContext: Context, fm: FragmentM
         return habit_fragment
     }
 
+    fun setData(dates: List<LocalDate>){
+        this.date = dates
+        notifyDataSetChanged()
+    }
+
     // this counts total number of tabs
     override fun getCount(): Int {
-        return totalTabs
+        return date.size
     }
 }

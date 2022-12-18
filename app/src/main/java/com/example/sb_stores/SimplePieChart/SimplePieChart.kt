@@ -182,7 +182,7 @@ class SimplePieChart  : View {
                 textCenterY + (2* DEFAULT_TEXT_SIZE_SP)  -10,
                 textPaint!!
             )
-            canvas.drawText("Total Spends",contentBounds!!.centerX() ,
+            canvas.drawText("Total",contentBounds!!.centerX() ,
                 contentBounds!!.centerY() -20,
                 textPaint!!)
 

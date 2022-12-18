@@ -2,15 +2,11 @@ package com.example.sb_stores.database
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.room.*
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
-import com.example.sb_stores.DateUtils
-import com.example.sb_stores.graphs.BarItem
-import java.text.SimpleDateFormat
-import java.time.LocalDate
+import com.example.sb_stores.Utils.DateUtils
 
 @Dao
 @RequiresApi(Build.VERSION_CODES.O)
@@ -119,9 +115,9 @@ interface salesDao {
     fun getYearlyPurchace(year:Int, context: Context):Int{
         val saleList = AppDatabase.getDatabase(context).apiResponseDao().getData()
         var sum = 0
-        for (i in saleList){
-            val date = DateUtils().toLocalDate(i.date)
-            if (year == date!!.year ) sum = sum + i.purchace_price
+        for (i in 1..12){
+            val sale_month = getMonthlyPurchace(i,context, year)
+            sum += sale_month
         }
 
         return sum

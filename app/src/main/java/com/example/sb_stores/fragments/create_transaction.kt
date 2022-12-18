@@ -98,11 +98,14 @@ class create_transaction :  Fragment() {
                 val name = view.findViewById<EditText>(R.id.name).text
                 val qtty = view.findViewById<EditText>(R.id.product_qtty)
                 val price = view.findViewById<EditText>(R.id.product_price)
+                var category = ""
+                if (categories.isNotEmpty()){
+                    category = category_spinner!!.selectedItem.toString()
+                }
 
-                val category = category_spinner!!.selectedItem
                 val mrp = view.findViewById<EditText>(R.id.productMRP).text.toString()
                 val date = date
-                if (name.toString() != "" && price.text.toString() != "" && mrp != "" && date != null && category != null){
+                if (name.toString() != "" && price.text.toString() != "" && mrp != "" && date != null && category != "" ){
                 val mydb_ = AppDatabase.getDatabase(requireContext())
                 val mydb = mydb_.apiResponseDao()
 
@@ -116,7 +119,7 @@ class create_transaction :  Fragment() {
                     product_to_sale(
                         0,
                         name.toString(),
-                        (mrp.toInt() * qtty.text.toString().toFloat()).toInt(),
+                        mrp.toInt(),
                         price.text.toString().toInt(),
                         qtty.text.toString().toFloat(),
                         date.toString(),
@@ -160,16 +163,27 @@ class create_transaction :  Fragment() {
             kotlinx.coroutines.GlobalScope.launch {
                 var category =
                     addCategoryDialog.findViewById<android.widget.EditText>(com.example.sb_stores.R.id.category_name).text.toString()
-                category = category.replace("\\s".toRegex(), "_")
-                val mydb_ = com.example.sb_stores.database.AppDatabase.getDatabase(requireContext())
-                mydb_.salesDao().addCategoryData(date.toString(), category.toString())
-                val temp=ArrayList<String>()
+                if (category != ""){
+                    category = category.replace("\\s".toRegex(), "_")
+                    val mydb_ = com.example.sb_stores.database.AppDatabase.getDatabase(requireContext())
+                    mydb_.salesDao().addCategoryData(date.toString(), category.toString())
+                    val temp=ArrayList<String>()
 
-                for (i in mydb_.salesDao().getCategoryList()){
-                    temp.add(i.category_name)
+                    for (i in mydb_.salesDao().getCategoryList()){
+                        temp.add(i.category_name)
+                    }
+
+                    setData(temp)
+                    addCategoryDialog.cancel()
                 }
-                setData(temp)
-                addCategoryDialog.cancel()
+                else {
+                    requireActivity().runOnUiThread{
+                        Toast.makeText(requireActivity(), "Please fill category first", Toast.LENGTH_SHORT).show()
+
+                    }
+                                 }
+
+
 
 
             }

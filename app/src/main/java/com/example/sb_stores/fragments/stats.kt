@@ -7,25 +7,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import com.example.samplechart.SimplePieChart.SimplePieChart
-import com.example.sb_stores.DateUtils
 import com.example.sb_stores.R
 import com.example.sb_stores.database.AppDatabase
-import com.example.sb_stores.database.Year
 import com.example.sb_stores.graphs.audit_stats
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.log
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,7 +30,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @RequiresApi(Build.VERSION_CODES.O)
-class stats : Fragment(), AdapterView.OnItemSelectedListener {
+class stats : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListener {
 
 
     private lateinit var monthlyprofit: TextView
@@ -63,7 +55,11 @@ class stats : Fragment(), AdapterView.OnItemSelectedListener {
         monthlyprofit = view.findViewById<TextView>(R.id.profit_month)
         yearlysale = view.findViewById<TextView>(R.id.sale_amount_year)
         yearlyprofit = view.findViewById(R.id.profit_year)
-
+        view.findViewById<RadioButton>(R.id.bar_radio).setOnClickListener(this)
+        view.findViewById<RadioButton>(R.id.pie_radio).isChecked = true
+        view.findViewById<RadioButton>(R.id.pie_radio).setOnClickListener(this)
+        childFragmentManager.beginTransaction().add(R.id.fragmentContainerView, piechart_stats())
+            .commit()
 
         val month_spinner = view.findViewById<Spinner>(R.id.spinner_month)
         year_spinner = view.findViewById<Spinner>(R.id.spinner_year)
@@ -95,10 +91,12 @@ class stats : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
 
+        fun onRadioButtonClicked(view: View) {
+
+        }
 
 
-        childFragmentManager.beginTransaction().add(R.id.fragmentContainerView, audit_stats())
-            .commit()
+
         return view
     }
 
@@ -176,6 +174,28 @@ class stats : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
 
+    }
+
+    override fun onClick(view: View?) {
+        if (view is RadioButton) {
+            // Is the button now checked?
+            val checked = view.isChecked
+
+            // Check which radio button was clicked
+            when (view.getId()) {
+                R.id.bar_radio ->
+                    if (checked) {
+                        // Pirates are the best
+                        childFragmentManager.beginTransaction().replace(R.id.fragmentContainerView, audit_stats())
+                            .commit()
+                    }
+                R.id.pie_radio ->
+                    if (checked) {
+                        childFragmentManager.beginTransaction().replace(R.id.fragmentContainerView, piechart_stats())
+                            .commit()
+                    }
+            }
+        }
     }
 
 

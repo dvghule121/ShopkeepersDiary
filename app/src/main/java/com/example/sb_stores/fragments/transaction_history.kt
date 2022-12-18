@@ -2,22 +2,21 @@ package com.example.sb_stores.fragments
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.sb_stores.MainActivity
-import com.example.sb_stores.adapters.MyAdapter
 import com.example.sb_stores.R
+import com.example.sb_stores.Utils.DateUtils
+import com.example.sb_stores.adapters.MyAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.Month
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,6 +35,11 @@ class transaction_history :  Fragment() {
     private var param2: String? = null
     var tabLayout: TabLayout? = null
     var viewPager: ViewPager? = null
+    lateinit var dateList: ArrayList<LocalDate>
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    var month: Int = LocalDate.now().monthValue
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,46 +60,81 @@ class transaction_history :  Fragment() {
 
         tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
         viewPager = view.findViewById<ViewPager>(R.id.viewPager2)
+        val adapter = MyAdapter(
+            requireContext(),
+            childFragmentManager,
+            tabLayout!!.tabCount
+        )
+        viewPager!!.adapter = adapter
 
-//        val mydb = DatabaseHandler(requireContext())
-//        val dateData = mydb.getAllTasksDate()
-//          val s = dateData.asReversed()
+        dateList = getAllDateOfMonth()
+        for (i in dateList.reversed()) {
 
-        if (true) {
+            val dt1 = i
 
-            for(i in getAllDateOfMonth().reversed() ){
-
-                val dt1 = i
-                val format2: DateFormat = SimpleDateFormat("EEE")
-                val finalDay = i.dayOfWeek
-                Log.d("TAG", "onCreateView: $dt1")
-
-                val date_view= inflater.inflate(R.layout.card_for_date,container, false)
+            val date_view = inflater.inflate(R.layout.card_for_date, container, false)
 
 
-                date_view.findViewById<TextView>(R.id.textView9).text = finalDay.name.slice(0..2)
-                date_view.findViewById<TextView>(R.id.textView10).text = dt1.dayOfMonth.toString()
+            date_view.findViewById<TextView>(R.id.textView9).text = i.month.name.slice(0..2)
+            date_view.findViewById<TextView>(R.id.textView10).text = dt1.dayOfMonth.toString()
+            tabLayout!!.addTab(tabLayout!!.newTab().setCustomView(date_view))
+
+        }
+        adapter.setData(dateList.reversed())
+
+        if (dateList.size == 1 ) {
+            val l = getAllDateOfMonth(month - 1).reversed()
+
+            dateList.addAll(l)
+
+            for (j in l) {
+                val dt1 = j
+                val date_view = inflater.inflate(R.layout.card_for_date, container, false)
+
+                date_view.findViewById<TextView>(R.id.textView9).text =
+                    j.month.name.slice(0..2)
+                date_view.findViewById<TextView>(R.id.textView10).text =
+                    dt1.dayOfMonth.toString()
                 tabLayout!!.addTab(tabLayout!!.newTab().setCustomView(date_view))
 
             }
+            adapter.setData(dateList)
+        }
 
 
 
-            val adapter = MyAdapter(
-                getAllDateOfMonth().reversed(),
-                requireContext(),
-                childFragmentManager,
-                tabLayout!!.tabCount
-            )
-            viewPager!!.adapter = adapter
 
 
-            viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
 
-            tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab) {
-                    viewPager!!.currentItem = tab.position
+
+
+        viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+
+        tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager!!.currentItem = tab.position
+                if (tab.position == dateList.lastIndex) {
+                    month = month - 1
+                    val l = (getAllDateOfMonth(month)).reversed()
+                    dateList.addAll(l)
+
+                    for (j in l) {
+                        val dt1 = j
+                        val date_view = inflater.inflate(R.layout.card_for_date, container, false)
+
+                        date_view.findViewById<TextView>(R.id.textView9).text =
+                            j.month.name.slice(0..2)
+                        date_view.findViewById<TextView>(R.id.textView10).text =
+                            dt1.dayOfMonth.toString()
+                        tabLayout!!.addTab(tabLayout!!.newTab().setCustomView(date_view))
+
+
+                    }
+                    adapter.setData(dateList)
                 }
+
+
+            }
 
                 override fun onTabUnselected(tab: TabLayout.Tab) {
 
@@ -105,7 +144,7 @@ class transaction_history :  Fragment() {
 
                 }
             })
-        }
+
 
         view.findViewById<FloatingActionButton>(R.id.create_transaction).setOnClickListener {
             val act = activity as MainActivity
@@ -119,15 +158,22 @@ class transaction_history :  Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getAllDateOfMonth(): List<LocalDate> {
-
+    fun getAllDateOfMonth(month: Int = LocalDate.now().monthValue): ArrayList<LocalDate> {
 
 
         val today = LocalDate.now()
-        val datesOfThisMonth = mutableListOf<LocalDate>()
-        for (daysNo in 1 until LocalDate.now().dayOfMonth+1) {
+        val datesOfThisMonth = ArrayList<LocalDate>()
+        val lastIndex =
+            if (month == today.monthValue) LocalDate.now().dayOfMonth + 1 else if (month in 1..12) Month.of(
+                month
+            ).length(
+                DateUtils().isLeap(today.year)
+            ) + 1 else null
 
-            datesOfThisMonth.add(LocalDate.of(today.year, today.monthValue,daysNo))
+        if (lastIndex == null) return datesOfThisMonth
+        for (daysNo in 1 until lastIndex) {
+
+            datesOfThisMonth.add(LocalDate.of(today.year, month, daysNo))
         }
         return datesOfThisMonth
     }

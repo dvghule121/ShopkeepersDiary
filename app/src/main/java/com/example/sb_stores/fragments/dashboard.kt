@@ -8,21 +8,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.samplechart.SimplePieChart.SimplePieChart
-import com.example.sb_stores.DateUtils
+import com.example.sb_stores.Utils.DateUtils
+import com.example.sb_stores.MainActivity
 import com.example.sb_stores.R
 import com.example.sb_stores.database.AppDatabase
-import com.example.sb_stores.database.Year
+import com.example.sb_stores.database.Sales
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -35,6 +33,8 @@ class dashboard : Fragment(), AdapterView.OnItemSelectedListener {
     @RequiresApi(Build.VERSION_CODES.O)
     private var year: Int = LocalDate.now().year
     lateinit var year_spinner: Spinner
+    private var db: List<Sales>? = null
+    private lateinit var AppDatabase: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +57,9 @@ class dashboard : Fragment(), AdapterView.OnItemSelectedListener {
             view.findViewById<View>(R.id.piechart) as SimplePieChart
 
         GlobalScope.launch {
-            val database = AppDatabase.getDatabase(requireContext()).salesDao()
-            val salesDao =
-                AppDatabase.getDatabase(requireActivity().applicationContext).salesDao()
+            AppDatabase = com.example.sb_stores.database.AppDatabase.getDatabase(requireContext())
+            val database = AppDatabase.salesDao()
+            val salesDao = database
 
 
             val sum = database.getDataOfDate(DateUtils().getTodaysDate())
@@ -80,9 +80,13 @@ class dashboard : Fragment(), AdapterView.OnItemSelectedListener {
             }
 
 
-//            getMonthlyCategory(Date().month, LocalDate.now().year)
+//            getMonthlyCategory(month, year)
             getDailyCategory()
             year_spinner.setSelection(2)
+        }
+        view.findViewById<FloatingActionButton>(R.id.add_cat).setOnClickListener {
+            val act = requireActivity() as MainActivity
+            act.change(create_transaction())
         }
         return view
     }
@@ -101,7 +105,7 @@ class dashboard : Fragment(), AdapterView.OnItemSelectedListener {
         GlobalScope.launch {
 
             val salesDao =
-                AppDatabase.getDatabase(requireActivity().applicationContext).salesDao()
+                AppDatabase.salesDao()
 
             val dataset = ArrayList<SimplePieChart.Slice>()
             val arrayList = salesDao.getCategoryList()
@@ -122,26 +126,26 @@ class dashboard : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getMonthlyCategory(month: Int, year: Int){
+    fun getMonthlyCategory(month_to: Int, year: Int){
         GlobalScope.launch {
 
             val salesDao =
-                AppDatabase.getDatabase(requireActivity().applicationContext).salesDao()
+                AppDatabase.salesDao()
 
             val dataset = ArrayList<SimplePieChart.Slice>()
             val arrayList = salesDao.getCategoryList()
             for (i in arrayList) {
-                if (salesDao.getCategoryDataMonth(String().format("%02d",month),year, i.category_name) != 0) {
+                if (salesDao.getCategoryDataMonth("$month_to".format("%02d",month_to),year, i.category_name) != 0) {
                     dataset.add(
                         SimplePieChart.Slice(
                             (Math.random() * 16777215).toInt() or (0xFF shl 24),
-                            salesDao.getCategoryDataMonth(String().format("%02d",month),year, i.category_name).toFloat(),
+                            salesDao.getCategoryDataMonth("$month_to".format("%02d",month_to) ,year, i.category_name).toFloat(),
                             i.category_name
                         )
                     )
                 }
                 else{
-                    Log.d("TAG", "getMonthlyCategory: ${salesDao.getCategoryDataMonth(String().format("%02d",month),year, i.category_name)}")
+                    Log.d("TAG", "getMonthlyCategory: ${"$month".format("%02d",month_to)}, $month_to")
                 }
             }
             addDataset(awesomePieChart!!, dataset as ArrayList<SimplePieChart.Slice>)
@@ -154,7 +158,7 @@ class dashboard : Fragment(), AdapterView.OnItemSelectedListener {
         GlobalScope.launch {
 
             val salesDao =
-                AppDatabase.getDatabase(requireActivity().applicationContext).salesDao()
+                AppDatabase.salesDao()
 
             val dataset = ArrayList<SimplePieChart.Slice>()
             val arrayList = salesDao.getCategoryList()
@@ -170,7 +174,7 @@ class dashboard : Fragment(), AdapterView.OnItemSelectedListener {
                     )
                 }
                 else{
-                    Log.d("TAG", "getMonthlyCategory: ${salesDao.getCategoryDataMonth(String().format("%02d",month),year, i.category_name)}")
+                    Log.d("TAG", "getYearlyCategory: ${salesDao.getCategoryDataMonth(String().format("%02d",month),year, i.category_name)}")
                 }}
             }
             addDataset(awesomePieChart!!, dataset as ArrayList<SimplePieChart.Slice>)
@@ -186,7 +190,7 @@ class dashboard : Fragment(), AdapterView.OnItemSelectedListener {
 //        }else {
 //            year = p0.selectedItem.toString().toInt()
 //            Log.d("TAG", "onItemSelected: Item seell $year")
-//        }
+////        }
         awesomePieChart!!.removeAllSices()
         if (p0!!.selectedItem == "Yearly"){
             getYearlyCategory()

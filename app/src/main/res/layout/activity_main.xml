@@ -27,7 +27,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Slem"
+                android:text="Shopkeeper's Diary"
                 android:textSize="24sp"
                 app:fontFamily="@font/baloo_bhai"
                 app:layout_constraintBottom_toBottomOf="parent"

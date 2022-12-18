@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.samplechart.adapters.BarDataAdapter
 import com.example.samplechart.adapters.DataDescAdapter
-import com.example.sb_stores.DateUtils
+import com.example.sb_stores.Utils.DateUtils
 import com.example.sb_stores.MainActivity
 import com.example.sb_stores.R
 import com.example.sb_stores.database.AppDatabase
@@ -25,7 +25,6 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.Month
 import java.util.*
-import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,7 +38,7 @@ private const val ARG_PARAM2 = "param2"
  */
 
 @RequiresApi(Build.VERSION_CODES.O)
-private var month = LocalDate.now().month.value
+private var month = LocalDate.now().month.value - 1
 
 @RequiresApi(Build.VERSION_CODES.O)
 private var year = LocalDate.now().year
@@ -102,7 +101,12 @@ class audit_stats : Fragment(), AdapterView.OnItemSelectedListener {
         GlobalScope.launch {
 
             AppDatabase = com.example.sb_stores.database.AppDatabase.getDatabase(requireContext())
-            getMonthlyData(year)
+            filterSpinner!!.setSelection(2)
+            month_spinner!!.setSelection(month)
+
+
+
+
             max = 500000
 
             requireActivity().runOnUiThread {
@@ -290,7 +294,7 @@ override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: L
             month = pos
         }
     } else {
-        if (parent.selectedItem == "Monthly" ) {
+        if (parent.selectedItem == "Monthly") {
             GlobalScope.launch {
                 val years = AppDatabase.salesDao().getYears()
                 val temp = ArrayList<String>()
@@ -316,8 +320,10 @@ override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: L
                 ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, emptyList())
             filter_adapter!!.setDropDownViewResource((android.R.layout.simple_spinner_dropdown_item))
             month_spinner!!.adapter = filter_adapter
+            getYearlyData()
         }
         else {
+
             val a = ArrayList<String>()
             for (i in 1..12) {
                 a.add(Month.of(i).toString())
@@ -328,15 +334,14 @@ override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: L
                 ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, a)
             filter_adapter!!.setDropDownViewResource((android.R.layout.simple_spinner_dropdown_item))
             month_spinner!!.adapter = filter_adapter
-
             getData(month, year)
         }
 
 
     }
     if (filterSpinner!!.selectedItem == "Daily") {
+        month_spinner!!.setSelection(month)
         getData(month, year)
-        month_spinner!!.setSelection(Date().month)
     } else if (filterSpinner!!.selectedItem == "Yearly") {
         getYearlyData()
     } else {
@@ -349,6 +354,9 @@ override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: L
 override fun onNothingSelected(parent: AdapterView<*>) {
     // Another interface callback
 }
+
+
+
 
 
 }

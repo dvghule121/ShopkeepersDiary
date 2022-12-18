@@ -1,18 +1,21 @@
 package com.example.sb_stores.fragments
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sb_stores.MainActivity
 import com.example.sb_stores.R
 import com.example.sb_stores.database.product_to_sale
 
 
-class  transactionAdapter(val context: Context, val view :Int = R.layout.transaction_card): RecyclerView.Adapter< transactionAdapterViewHolder>() {
+class  transactionAdapter(val activity:Activity, val view :Int = R.layout.transaction_card): RecyclerView.Adapter< transactionAdapterViewHolder>() {
 
     var productList = emptyList<product_to_sale>()
 
@@ -34,6 +37,14 @@ class  transactionAdapter(val context: Context, val view :Int = R.layout.transac
         holder.mrp.text = "M.R.P: ₹ " + (product.purchace_price).toString()
         holder.qtty.text = "Quantity: " + (product.qtty).toString()
         holder.date.text = product.time
+        holder.itemView.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt("id", product.id)
+            val ftc = transaction_details()
+            ftc.arguments = bundle
+            val act = activity as MainActivity
+            act.change(ftc)
+        }
 
     }
 
