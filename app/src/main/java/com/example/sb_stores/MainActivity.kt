@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -40,20 +41,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                // There are no request codes
-                val data: Intent? = result.data
-                val uri = data!!.data!!
-                val urinew = URI.create(uri.toString())
-
-
-                Log.d("TAG", "onActivityResult: Working $urinew")
-                    DBFileProvider().importDatabaseFile(this, urinew.toPath().toString())
-
-
-            }
-        }
+//         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == Activity.RESULT_OK) {
+//                // There are no request codes
+//                val data: Intent? = result.data
+//                val uri = data!!.data!!
+//                val urinew = URI.create(uri.toString())
+//
+//
+//                Log.d("TAG", "onActivityResult: Working $urinew")
+//                    DBFileProvider().importDatabaseFile(this, urinew.toPath().toString())
+//
+//
+//            }
+//        }
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener {
 
@@ -88,11 +89,15 @@ class MainActivity : AppCompatActivity() {
                 database.salesDao().insertYearData(Year(LocalDate.now().year.toString(), 0))
 
             }
-            else if (LocalDate.now().year != DateUtils().toLocalDate(daily_sale[daily_sale.lastIndex].date)!!.year){
+            else if (database.salesDao().getYears().last().date != LocalDate.now().year.toString()){
                 for (i in createYearDataset(LocalDate.now().year)){
                     Log.d("TAG", "onCreate: date addinf")
                     database.salesDao().insertData(Sales(DateUtils().getDate(i), 0, 0))
                 }
+                for( cat in database.salesDao().getCategoryList()){
+                    database.salesDao().addCategoryDataYear(LocalDate.now().year, category = cat.category_name)
+                }
+
                 database.salesDao().insertYearData(Year(LocalDate.now().year.toString(), 0))
             }
 
@@ -148,10 +153,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getfile(){
-        val pickFromGallery = Intent(Intent.ACTION_GET_CONTENT)
-        pickFromGallery.type = "*/.db"
-        resultLauncher.launch(pickFromGallery)
+//        val pickFromGallery = Intent(Intent.ACTION_GET_CONTENT)
+//        pickFromGallery.type = "*/*"
+//        resultLauncher.launch(pickFromGallery)
+
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "application/*"
+        }
+        startActivityForResult(intent, 111)
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 111 && resultCode == Activity.RESULT_OK) {
+            val uri: Uri? = data?.data
+            if (uri != null) {
+                DBFileProvider().importDatabaseFile(this, uri)
+            }
+
+        }
+    }
+
+
+
+
+
+
 
 
 }

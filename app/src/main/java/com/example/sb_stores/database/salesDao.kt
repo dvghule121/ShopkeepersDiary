@@ -2,6 +2,7 @@ package com.example.sb_stores.database
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.room.*
 import androidx.sqlite.db.SimpleSQLiteQuery
@@ -27,6 +28,9 @@ interface salesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertData(productToSale: Sales)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertData(productToSale: List<Sales>)
 
     @Query("UPDATE sales_data SET sale = sale+:amount , purchased = purchased +:pur WHERE date = :date")
     fun updateData(date: String, amount: Int, pur:Int)
@@ -71,6 +75,17 @@ interface salesDao {
         val saleList = getData()
         for (i in saleList){
             InsertCategoryData(i.date, 0, category)
+        }
+    }
+
+    fun addCategoryDataYear(year: Int, category: String){
+        val saleList = getData()
+        for (i in saleList){
+            if (DateUtils().toLocalDate(i.date)!!.year  == year){
+                Log.d("gg", "addCategoryDataYear: something")
+                InsertCategoryData(i.date, 0, category)
+            }
+
         }
     }
 
@@ -128,6 +143,9 @@ interface salesDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertYearData(year: Year)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertYearData(year: List<Year>)
 
     @Query("UPDATE year SET sale = sale+:amount WHERE year = :date")
     fun updateYearData(date: String, amount: Int)

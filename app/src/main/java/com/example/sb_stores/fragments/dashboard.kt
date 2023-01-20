@@ -17,6 +17,7 @@ import com.example.sb_stores.MainActivity
 import com.example.sb_stores.R
 import com.example.sb_stores.database.AppDatabase
 import com.example.sb_stores.database.Sales
+import com.example.sb_stores.database.Year
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,7 +32,7 @@ class dashboard : Fragment(), AdapterView.OnItemSelectedListener {
     @RequiresApi(Build.VERSION_CODES.O)
     private var month : Int = LocalDate.now().month.value
     @RequiresApi(Build.VERSION_CODES.O)
-    private var year: Int = LocalDate.now().year
+    private var year: Int = 2023
     lateinit var year_spinner: Spinner
     private var db: List<Sales>? = null
     private lateinit var AppDatabase: AppDatabase

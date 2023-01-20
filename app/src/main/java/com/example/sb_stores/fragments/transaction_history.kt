@@ -57,6 +57,7 @@ class transaction_history :  Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_transaction_history, container, false)
+        var year = LocalDate.now().year
 
         tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
         viewPager = view.findViewById<ViewPager>(R.id.viewPager2)
@@ -67,7 +68,7 @@ class transaction_history :  Fragment() {
         )
         viewPager!!.adapter = adapter
 
-        dateList = getAllDateOfMonth()
+        dateList = getAllDateOfMonth(year = year)
         for (i in dateList.reversed()) {
 
             val dt1 = i
@@ -83,7 +84,7 @@ class transaction_history :  Fragment() {
         adapter.setData(dateList.reversed())
 
         if (dateList.size == 1 ) {
-            val l = getAllDateOfMonth(month - 1).reversed()
+            val l = getAllDateOfMonth(month - 1, year).reversed()
 
             dateList.addAll(l)
 
@@ -114,8 +115,14 @@ class transaction_history :  Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 viewPager!!.currentItem = tab.position
                 if (tab.position == dateList.lastIndex) {
-                    month = month - 1
-                    val l = (getAllDateOfMonth(month)).reversed()
+                    if (dateList.last().month == Month.JANUARY){
+                        year = year-1
+                        month = 12
+                    }else{
+                        month = month - 1
+                    }
+
+                    val l = (getAllDateOfMonth(month, year)).reversed()
                     dateList.addAll(l)
 
                     for (j in l) {
@@ -158,7 +165,7 @@ class transaction_history :  Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getAllDateOfMonth(month: Int = LocalDate.now().monthValue): ArrayList<LocalDate> {
+    fun getAllDateOfMonth(month: Int = LocalDate.now().monthValue, year:Int): ArrayList<LocalDate> {
 
 
         val today = LocalDate.now()
@@ -167,13 +174,13 @@ class transaction_history :  Fragment() {
             if (month == today.monthValue) LocalDate.now().dayOfMonth + 1 else if (month in 1..12) Month.of(
                 month
             ).length(
-                DateUtils().isLeap(today.year)
+                DateUtils().isLeap(year)
             ) + 1 else null
 
         if (lastIndex == null) return datesOfThisMonth
         for (daysNo in 1 until lastIndex) {
 
-            datesOfThisMonth.add(LocalDate.of(today.year, month, daysNo))
+            datesOfThisMonth.add(LocalDate.of(year, month, daysNo))
         }
         return datesOfThisMonth
     }

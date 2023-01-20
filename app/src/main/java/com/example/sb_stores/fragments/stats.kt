@@ -62,7 +62,8 @@ class stats : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListen
             .commit()
 
         val month_spinner = view.findViewById<Spinner>(R.id.spinner_month)
-        year_spinner = view.findViewById<Spinner>(R.id.spinner_year)
+        year_spinner = view.findViewById(R.id.spinner_year)
+
 
         month_spinner.onItemSelectedListener = this
         year_spinner.onItemSelectedListener = this
@@ -70,6 +71,7 @@ class stats : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListen
         month_spinner.setSelection(month-1)
         setDataMonth(month-1, year)
         setDataYear(year)
+
 
         GlobalScope.launch {
             val years = AppDatabase.getDatabase(requireContext()).salesDao().getYears()
@@ -87,6 +89,7 @@ class stats : Fragment(), AdapterView.OnItemSelectedListener, View.OnClickListen
                 val cat_adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, temp)
                 cat_adapter.setDropDownViewResource((android.R.layout.simple_spinner_dropdown_item))
                 year_spinner.adapter = cat_adapter
+                year_spinner.setSelection(years.size-1)
             }
         }
 

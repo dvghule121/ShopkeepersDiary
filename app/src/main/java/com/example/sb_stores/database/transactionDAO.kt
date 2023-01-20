@@ -17,6 +17,9 @@ interface transactionDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertData(productToSale: product_to_sale)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertData(productToSale: List<product_to_sale>)
+
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun updateData(productToSale: product_to_sale)
 

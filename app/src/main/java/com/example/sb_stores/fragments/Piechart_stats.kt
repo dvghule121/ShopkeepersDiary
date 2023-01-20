@@ -89,7 +89,7 @@ class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
                     dataset.add(
                         SimplePieChart.Slice(
                             (Math.random() * 16777215).toInt() or (0xFF shl 24),
-                            salesDao.getCategoryData(day, i.category_name).toFloat(),
+                            salesDao.getCategoryData(day, i.category_name)!!.toFloat(),
                             i.category_name
                         )
                     )
