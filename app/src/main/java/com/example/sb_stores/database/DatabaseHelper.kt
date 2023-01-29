@@ -41,14 +41,14 @@ abstract class AppDatabase : RoomDatabase() {
             if (!listofcategory.contains(Category(i.categoryId))) {
                 salesDao().addCategory(Category(i.categoryId))
                 salesDao().addCategoryData(i.categoryId)
-                salesDao().updateCategoryData(i.date, i.price, i.categoryId)
+                salesDao().updateCategoryData(i.date, (i.price*i.qtty).toInt(), i.categoryId)
                 listofcategory = salesDao().getCategoryList()
 
             } else {
-                salesDao().updateCategoryData(i.date, i.price, i.categoryId)
+                salesDao().updateCategoryData(i.date, (i.price*i.qtty).toInt(), i.categoryId)
             }
 
-            salesDao().updateData(i.date, i.price, i.purchace_price)
+            salesDao().updateData(i.date, (i.price*i.qtty).toInt(), (i.purchace_price*i.qtty).toInt())
 
 
         }

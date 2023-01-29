@@ -29,6 +29,10 @@ interface transactionDAO {
     @Query("DELETE FROM productsale where id = :id")
     fun delete(id: Int)
 
+    @Query("SELECT *  FROM  productsale where name like :name || '%' GROUP BY name")
+    fun getSearch(name:String): List<product_to_sale>
+
+
 
 
 }

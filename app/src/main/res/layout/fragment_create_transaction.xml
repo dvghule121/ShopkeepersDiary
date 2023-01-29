@@ -183,7 +183,7 @@
 
                 <TextView
                     android:id="@+id/time_choosen4"
-                    android:layout_width="180dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="36dp"
                     android:background="@drawable/input_box"
@@ -192,6 +192,7 @@
                     android:padding="20dp"
                     android:textAlignment="viewStart"
                     android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/add_category"
                     app:layout_constraintStart_toStartOf="@+id/category"
                     app:layout_constraintTop_toBottomOf="@+id/add_category" />
 
@@ -199,6 +200,7 @@
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="22dp"
                     android:layout_marginTop="22dp"
                     android:background="@color/app_background_light"
                     android:fontFamily="@font/baloo_bhai"
@@ -207,42 +209,8 @@
                     android:textAlignment="center"
                     android:textColor="#A1887F"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="@+id/time_choosen"
-                    app:layout_constraintHorizontal_bias="0.052"
                     app:layout_constraintStart_toStartOf="@+id/time_choosen4"
                     app:layout_constraintTop_toBottomOf="@+id/add_category" />
-
-                <TextView
-                    android:id="@+id/time_choosen"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="36dp"
-                    android:background="@drawable/input_box"
-                    android:fontFamily="@font/baloo_bhai"
-                    android:hint="13 : 30  "
-                    android:padding="20dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="@+id/category"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/time_choosen4"
-                    app:layout_constraintTop_toBottomOf="@+id/add_category" />
-
-                <ImageButton
-                    android:id="@+id/choose_time"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@null"
-                    android:contentDescription="@string/app_name"
-                    android:padding="10dp"
-                    android:scaleType="fitXY"
-                    android:src="@android:drawable/ic_lock_idle_alarm"
-                    app:layout_constraintBottom_toBottomOf="@+id/time_choosen"
-                    app:layout_constraintEnd_toEndOf="@+id/time_choosen"
-                    app:layout_constraintTop_toTopOf="@+id/time_choosen"
-                    app:layout_constraintVertical_bias="0.461" />
 
                 <ImageButton
                     android:id="@+id/choose_time2"
@@ -265,25 +233,8 @@
                     android:text="add"
                     android:textColor="#FFFFFF"
                     app:cornerRadius="10dp"
-                    app:layout_constraintEnd_toEndOf="@+id/time_choosen"
-                    app:layout_constraintTop_toBottomOf="@+id/time_choosen" />
-
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="22dp"
-                    android:background="@color/app_background_light"
-                    android:fontFamily="@font/baloo_bhai"
-                    android:padding="5dp"
-                    android:text="time"
-                    android:textAlignment="center"
-                    android:textColor="#A1887F"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="@+id/time_choosen"
-                    app:layout_constraintHorizontal_bias="0.14"
-                    app:layout_constraintStart_toStartOf="@+id/time_choosen"
-                    app:layout_constraintTop_toBottomOf="@+id/add_category" />
+                    app:layout_constraintEnd_toEndOf="@+id/time_choosen4"
+                    app:layout_constraintTop_toBottomOf="@+id/time_choosen4" />
 
                 <Button
                     android:id="@+id/add_category"
@@ -295,6 +246,15 @@
                     app:layout_constraintTop_toBottomOf="@+id/category" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Spinner
+                android:id="@+id/result_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/textView6"
+                app:layout_constraintEnd_toEndOf="@+id/name"
+                app:layout_constraintStart_toStartOf="@+id/name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
