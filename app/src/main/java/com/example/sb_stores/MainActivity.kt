@@ -94,9 +94,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("TAG", "onCreate: date addinf")
                     database.salesDao().insertData(Sales(DateUtils().getDate(i), 0, 0))
                 }
-                for( cat in database.salesDao().getCategoryList()){
-                    database.salesDao().addCategoryDataYear(LocalDate.now().year, category = cat.category_name)
-                }
+
 
                 database.salesDao().insertYearData(Year(LocalDate.now().year.toString(), 0))
             }
@@ -170,7 +168,7 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == 111 && resultCode == Activity.RESULT_OK) {
             val uri: Uri? = data?.data
             if (uri != null) {
-                DBFileProvider().importDatabaseFile(this, uri)
+                DBFileProvider().importDatabaseFile(this, this,uri)
             }
 
         }

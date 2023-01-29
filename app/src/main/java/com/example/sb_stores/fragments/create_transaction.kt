@@ -117,7 +117,7 @@ class create_transaction :  Fragment() {
 
                 val id = mydb.insertData(
                     product_to_sale(
-                        0,
+                        calendar!!.timeInMillis.toInt(),
                         name.toString(),
                         mrp.toInt(),
                         price.text.toString().toInt(),

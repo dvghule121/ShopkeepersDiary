@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.sb_stores.MainActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -42,7 +43,7 @@ class DBFileProvider : FileProvider() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun importDatabaseFile(context: Context, uri: Uri) {
+    fun importDatabaseFile(context: Context, activity: MainActivity, uri: Uri) {
         GlobalScope.launch {
 
             val inputStream = context.contentResolver.openInputStream(uri)
@@ -56,36 +57,19 @@ class DBFileProvider : FileProvider() {
 
             val tempDb =
                 Room.databaseBuilder(context, AppDatabase::class.java, tempDbFile.path).build()
-            val dataFromFileSales = tempDb.salesDao().getData()
             val dataFromFileEntry = tempDb.apiResponseDao().getData()
-            val dataFromFileYear = tempDb.salesDao().getYears()
-            tempDb.close()
+
+
 //            tempDbFile.delete()
 
             // Add the data from the file to the existing data
             val mydb =
                 Room.databaseBuilder(context, AppDatabase::class.java, "app_database").build()
-            val currentData = mydb.salesDao().getData()
             val currentEntry = tempDb.apiResponseDao().getData()
-            val updatedData = currentData + dataFromFileSales
-            val currentDataYear = mydb.salesDao().getYears()
-            val updatedDataYear = currentDataYear + dataFromFileYear
-            val updatedDataEntry = currentEntry + dataFromFileEntry
-            val currentCategory = mydb.salesDao().getCategoryList()
 
 
-            for(i in tempDb.salesDao().getCategoryList()){
-                if (!currentCategory.contains(i)){
-                    mydb.salesDao().addCategory(i)
-                    mydb.salesDao().addCategoryData(currentEntry.first().date, i.category_name)
-                    mydb.salesDao().addCategoryDataYear(currentDataYear.lastIndex, i.category_name )
 
-
-                }
-            }
-            mydb.salesDao().insertData(updatedData)
-            mydb.apiResponseDao().insertData(updatedDataEntry)
-            mydb.salesDao().insertYearData(updatedDataYear)
+            mydb.insertExternalData(activity,dataFromFileEntry)
             mydb.close()
         }
 

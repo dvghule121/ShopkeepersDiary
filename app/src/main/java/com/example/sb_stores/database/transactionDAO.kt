@@ -1,8 +1,11 @@
 package com.example.sb_stores.database
 
+import android.util.Log
 import androidx.room.*
+import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.sqlite.db.SupportSQLiteQuery
 
-
+var dataReplaced = false
 @Dao
 interface transactionDAO {
     @Query("SELECT * FROM productsale")
@@ -25,4 +28,7 @@ interface transactionDAO {
 
     @Query("DELETE FROM productsale where id = :id")
     fun delete(id: Int)
+
+
+
 }

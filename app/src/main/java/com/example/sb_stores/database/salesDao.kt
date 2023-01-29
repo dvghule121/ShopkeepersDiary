@@ -69,8 +69,24 @@ interface salesDao {
 
 
     fun addCategoryData(date: String, category: String){
-        val query = SimpleSQLiteQuery("ALTER TABLE sales_data ADD COLUMN $category INTEGER")
+        val query = SimpleSQLiteQuery("ALTER TABLE sales_data ADD COLUMN $category INTEGER Default 0")
         rawQueryUpdate(query)
+        addCategory(Category(category))
+        val saleList = getData()
+        for (i in saleList){
+            InsertCategoryData(i.date, 0, category)
+        }
+    }
+
+    fun addCategoryData(category: String){
+        val query = SimpleSQLiteQuery("ALTER TABLE sales_data ADD COLUMN $category INTEGER Default 0")
+        try {
+            rawQueryUpdate(query)
+        }
+        catch (e :Exception){
+            return
+        }
+
         addCategory(Category(category))
         val saleList = getData()
         for (i in saleList){
