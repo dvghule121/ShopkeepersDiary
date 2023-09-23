@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import com.example.sb_stores.MainActivity
 import com.example.sb_stores.R
 import com.example.sb_stores.Utils.DateUtils
+import com.example.sb_stores.Utils.SpinnerEditText
 import com.example.sb_stores.database.AppDatabase
 import com.example.sb_stores.database.product_to_sale
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -70,11 +71,15 @@ class create_transaction :  Fragment() {
         val act = activity as MainActivity
         calendar = Calendar.getInstance()
         category_spinner = view.findViewById<Spinner>(R.id.category)
-        val spinner = view.findViewById<Spinner>(R.id.result_spinner)
-        val searchEditText: EditText = view.findViewById(R.id.name)
+        val spinnerEditText = view.findViewById<SpinnerEditText>(R.id.name)
+        val searchEditText = spinnerEditText.editText
         val qttyET = view.findViewById<EditText>(R.id.product_qtty)
         val priceET= view.findViewById<EditText>(R.id.product_price)
         val purchasepriceET= view.findViewById<EditText>(R.id.productMRP)
+        val today = DateUtils().getTodaysDate()
+        date = today
+        val spinner = spinnerEditText.spinner
+        spinner.visibility = View.GONE
 
 
 
@@ -89,6 +94,7 @@ class create_transaction :  Fragment() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 // Perform the search operation
                 GlobalScope.launch{
+
                     val mydb_ = AppDatabase.getDatabase(requireContext())
                     val searchQuery = s.toString()
                     searchResults = mydb_.apiResponseDao().getSearch(searchQuery)
@@ -106,17 +112,34 @@ class create_transaction :  Fragment() {
 
                     requireActivity().runOnUiThread{
                         spinner.setAdapter(adapter)
-                        spinner.setSelection(0)
+                        if (searchString.size > 1 && searchEditText.text.isNotEmpty()) {
+                            spinner.performClick()
+                        }
+                        else{
+                            spinner.visibility = View.GONE
+                        }
+
+
+
+
                     }
 
 
 
                 }
 
+
             }
 
             override fun afterTextChanged(s: Editable) {
                 // Do nothing
+                if (searchResults!!.size < 1){
+                    return
+                }
+                spinner.visibility = View.VISIBLE
+
+//                spinner.clearFocus()
+//                searchEditText.hasFocus()
             }
         })
 
@@ -171,6 +194,7 @@ class create_transaction :  Fragment() {
 
 //
                         category_spinner!!.setSelection(categories.indexOf(selectedItem.categoryId))
+                    spinner.visibility = View.GONE
 
 
 
@@ -180,6 +204,7 @@ class create_transaction :  Fragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Do nothing
+                spinner.visibility = View.GONE
 
             }
         }
@@ -225,7 +250,7 @@ class create_transaction :  Fragment() {
                     mydb_.salesDao().updateData(date.toString(), (qtty.text.toString().toFloat() * price.text.toString().toInt()).toInt(),(mrp.toInt() * qtty.text.toString().toFloat()).toInt())
                     mydb_.salesDao()
                         .updateCategoryData(date.toString(), (qtty.text.toString().toFloat() * price.text.toString().toInt()).toInt(), category.toString())
-                    act.change(transaction_history())
+                    act.change(R.id.action_create_transaction2_to_transactionHistoryFragment)
                 }
                 else{
                     act.runOnUiThread{

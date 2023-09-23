@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
+        android:id="@+id/dashboardFragment"
         android:title="Home"
         android:icon="@drawable/ic_dashboard"
 
         />
 
     <item
-        android:id="@+id/goal"
+        android:id="@+id/statsFragment"
         android:title="Stats"
         android:icon="@drawable/ic_statistics"
 
         />
 
     <item
-        android:id="@+id/transaction"
+        android:id="@+id/transactionHistoryFragment"
         android:title="Transactions"
         android:icon="@drawable/ic_transactions"
 
         />
 
     <item
-        android:id="@+id/user"
+        android:id="@+id/userFragment"
         android:title="User"
         android:icon="@drawable/ic_user"
 

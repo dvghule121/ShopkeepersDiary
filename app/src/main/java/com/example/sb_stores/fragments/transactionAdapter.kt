@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.Navigation
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sb_stores.MainActivity
@@ -43,7 +44,7 @@ class  transactionAdapter(val activity:Activity, val view :Int = R.layout.transa
             val ftc = transaction_details()
             ftc.arguments = bundle
             val act = activity as MainActivity
-            act.change(ftc)
+            act.change(R.id.action_transactionHistoryFragment_to_transaction_details, bundle)
         }
 
     }

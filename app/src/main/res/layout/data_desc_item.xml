@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/dataLabel"
-        style="@style/PrimaryText"
+        style="@style/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/dataValue"
-        style="@style/PrimaryText"
+        style="@style/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/profit_val"
-        style="@style/PrimaryText"
+        style="@style/Title"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:text="0"

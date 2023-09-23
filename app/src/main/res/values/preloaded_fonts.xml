@@ -4,5 +4,7 @@
         <item>@font/</item>
         <item>@font/baloo_bhai</item>
         <item>@font/rammetto_one</item>
+        <item>@font/roboto</item>
+        <item>@font/roboto_bold</item>
     </array>
 </resources>

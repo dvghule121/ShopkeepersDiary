@@ -1,16 +1,15 @@
 package com.example.sb_stores.fragments
 
-import android.app.Activity
+
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -18,6 +17,8 @@ import androidx.fragment.app.Fragment
 import com.example.sb_stores.MainActivity
 import com.example.sb_stores.R
 import com.example.sb_stores.database.DBFileProvider
+
+
 import java.io.File
 
 
@@ -74,6 +75,8 @@ class user_fragment : Fragment() {
 //            startActivity(sendIntent)
 
 
+
+
             val share = Intent()
             share.action = Intent.ACTION_SEND
             share.type = "application/.db"
@@ -87,6 +90,14 @@ class user_fragment : Fragment() {
             act.getfile()
         }
 
+
+//        val pieChartView = view.findViewById<PieChartViewLines>(R.id.pie_chart)
+//        val slices = listOf(
+//            PieChartViewLines.Slice("Label 1", Color.RED, 30f),
+//            PieChartViewLines.Slice("Label 2", Color.BLUE, 40f),
+//            PieChartViewLines.Slice("Label 3", Color.GREEN, 50f)
+//        )
+//        pieChartView.setSlices(slices)
 
         return view
     }

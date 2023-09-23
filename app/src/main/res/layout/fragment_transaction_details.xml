@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.transaction_details">
 
     <ScrollView
@@ -11,6 +11,7 @@
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/lightTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -32,7 +33,7 @@
                 android:id="@+id/textView19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/input_bg"
+                android:background="@color/colorBackground"
                 android:fontFamily="@font/baloo_bhai"
                 android:padding="5dp"
                 android:text="Purchased price"
@@ -80,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:background="@color/input_bg"
+                android:background="@color/colorBackground"
                 android:fontFamily="@font/baloo_bhai"
                 android:padding="5dp"
                 android:text="Quantity"
@@ -98,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="24dp"
-                android:background="@color/input_bg"
+                android:background="@color/colorBackground"
                 android:fontFamily="@font/baloo_bhai"
                 android:padding="5dp"
                 android:text="Product"
@@ -112,14 +113,14 @@
                 android:id="@+id/imageView6"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
-                android:layout_marginStart="44dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="44dp"
+                android:layout_marginEnd="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@android:drawable/ic_menu_preferences" />
+                app:srcCompat="@drawable/ic_stores_foreground" />
 
             <EditText
                 android:id="@+id/product_price"
@@ -144,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="12dp"
-                android:background="@color/input_bg"
+                android:background="@color/colorBackground"
                 android:fontFamily="@font/baloo_bhai"
                 android:padding="5dp"
                 android:text="Price"
@@ -168,9 +169,9 @@
                     android:id="@+id/category"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="44dp"
+                    android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
-                    android:layout_marginEnd="44dp"
+                    android:layout_marginEnd="24dp"
                     android:background="@drawable/habbits_card_bg"
                     android:hint="Category "
                     android:minHeight="48dp"
@@ -200,7 +201,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:background="@color/input_bg"
+                    android:background="@color/colorBackground"
                     android:fontFamily="@font/baloo_bhai"
                     android:padding="5dp"
                     android:text="date"
@@ -273,7 +274,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:background="@color/input_bg"
+                    android:background="@color/colorBackground"
                     android:fontFamily="@font/baloo_bhai"
                     android:padding="5dp"
                     android:text="time"

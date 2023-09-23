@@ -33,7 +33,6 @@
                 android:id="@+id/textView19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/app_background_light"
                 android:fontFamily="@font/baloo_bhai"
                 android:padding="5dp"
                 android:text="Purchased"
@@ -45,7 +44,7 @@
                 app:layout_constraintStart_toStartOf="@+id/productMRP"
                 app:layout_constraintTop_toTopOf="@+id/textView15" />
 
-            <EditText
+            <com.example.sb_stores.Utils.SpinnerEditText
                 android:id="@+id/name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -82,7 +81,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="22dp"
-                android:background="@color/app_background_light"
                 android:fontFamily="@font/baloo_bhai"
                 android:padding="5dp"
                 android:text="Qty"
@@ -98,7 +96,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="22dp"
-                android:background="@color/app_background_light"
                 android:fontFamily="@font/baloo_bhai"
                 android:padding="5dp"
                 android:text="Product"
@@ -111,7 +108,7 @@
             <ImageView
                 android:id="@+id/imageView6"
                 android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="44dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="44dp"
@@ -144,7 +141,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/app_background_light"
                 android:fontFamily="@font/baloo_bhai"
                 android:padding="5dp"
                 android:text="Price"
@@ -186,7 +182,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="36dp"
-                    android:background="@drawable/input_box"
+                    android:background="@drawable/habbits_card_bg"
                     android:fontFamily="@font/baloo_bhai"
                     android:hint="22 JAN 2022"
                     android:padding="20dp"
@@ -202,7 +198,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="22dp"
                     android:layout_marginTop="22dp"
-                    android:background="@color/app_background_light"
                     android:fontFamily="@font/baloo_bhai"
                     android:padding="5dp"
                     android:text="date"
@@ -247,14 +242,15 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Spinner
-                android:id="@+id/result_spinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/textView6"
-                app:layout_constraintEnd_toEndOf="@+id/name"
-                app:layout_constraintStart_toStartOf="@+id/name" />
+            <!--            <Spinner-->
+            <!--                android:id="@+id/result_spinner"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:background="@drawable/habbits_card_bg"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:layout_constraintEnd_toEndOf="@+id/product_qtty"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/name"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/name" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

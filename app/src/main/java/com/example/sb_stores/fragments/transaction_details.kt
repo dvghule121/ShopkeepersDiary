@@ -49,17 +49,15 @@ class transaction_details : Fragment() {
         calendar = Calendar.getInstance()
         category_spinner = view.findViewById<Spinner>(R.id.category)
 
-
         id  = requireArguments().getInt("id")
+
         GlobalScope.launch{
             mydb_ = AppDatabase.getDatabase(requireContext())
-            val categoryList = mydb_.salesDao().getCategoryList()
             val productToSale = mydb_.apiResponseDao().getDataById(id!!)[0]
 
             val name = view.findViewById<EditText>(R.id.name)
             val qtty = view.findViewById<EditText>(R.id.product_qtty)
             val price = view.findViewById<EditText>(R.id.product_price)
-            val category = category_spinner!!.selectedItem
             val mrp = view.findViewById<EditText>(R.id.productMRP)
             date = productToSale.date
             view.findViewById<TextView>(R.id.time_choosen4).text = date
@@ -140,7 +138,7 @@ class transaction_details : Fragment() {
                             .updateCategoryData(productToSale.date, -(productToSale.price* productToSale.qtty).toInt() , category.toString())
 
                     }
-                    act.change(transaction_history())
+                    act.change(R.id.action_transaction_details_to_transactionHistoryFragment)
                 }
                 else{
                     act.runOnUiThread{
@@ -163,7 +161,7 @@ class transaction_details : Fragment() {
                 mydb_.apiResponseDao().delete(id!!)
                 mydb_.salesDao().updateData(p.date, -(p.price*p.qtty).toInt(), -(p.purchace_price*p.qtty).toInt())
                 mydb_.salesDao().updateCategoryData(p.date, -(p.qtty*p.price).toInt(),p.categoryId)
-                act.change(transaction_history())
+                act.change(R.id.action_transaction_details_to_transactionHistoryFragment)
             }
 
 

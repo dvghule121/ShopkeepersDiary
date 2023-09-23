@@ -10,11 +10,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.RequiresApi
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import com.example.samplechart.SimplePieChart.SimplePieChart
+import com.dynocodes.graphosable.Slice
 import com.example.sb_stores.Utils.DateUtils
 import com.example.sb_stores.R
 import com.example.sb_stores.database.AppDatabase
+import com.example.sb_stores.fragments.ui.components.Graphs
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -23,7 +25,7 @@ import kotlin.collections.ArrayList
 
 
 class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
-    private var awesomePieChart: SimplePieChart? = null
+    private var awesomePieChart: ComposeView? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     private var month: Int = LocalDate.now().month.value
@@ -56,7 +58,7 @@ class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
         year_spinner.onItemSelectedListener = this
         month_spinner.onItemSelectedListener = this
         awesomePieChart =
-            view.findViewById<View>(R.id.piechart) as SimplePieChart
+            view.findViewById<ComposeView>(R.id.piechart)
 
         GlobalScope.launch {
             AppDatabase = com.example.sb_stores.database.AppDatabase.getDatabase(requireContext())
@@ -66,14 +68,7 @@ class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
         return view
     }
 
-    fun addDataset(pieChart: SimplePieChart, dataset: ArrayList<SimplePieChart.Slice>) {
-        requireActivity().runOnUiThread {
-            for (i in dataset) {
-                pieChart.addSlice(i)
-            }
-        }
 
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getDailyCategory(day: String) {
@@ -82,20 +77,20 @@ class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
             val salesDao =
                 AppDatabase.salesDao()
 
-            val dataset = ArrayList<SimplePieChart.Slice>()
+            val dataset = ArrayList<Slice>()
             val arrayList = salesDao.getCategoryList()
             for (i in arrayList) {
                 if (salesDao.getCategoryData(day, i.category_name) != 0) {
                     dataset.add(
-                        SimplePieChart.Slice(
-                            (Math.random() * 16777215).toInt() or (0xFF shl 24),
-                            salesDao.getCategoryData(day, i.category_name)!!.toFloat(),
+                        Slice(
+                            salesDao.getCategoryData(day, i.category_name)!!.toFloat().toInt(),
                             i.category_name
                         )
                     )
                 }
             }
-            addDataset(awesomePieChart!!, dataset as ArrayList<SimplePieChart.Slice>)
+
+            Graphs().setPieChartView(dataset, requireView().findViewById<ComposeView>(R.id.piechart), requireContext())
 
         }
     }
@@ -107,7 +102,7 @@ class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
             val salesDao =
                 AppDatabase.salesDao()
 
-            val dataset = ArrayList<SimplePieChart.Slice>()
+            val dataset = ArrayList<Slice>()
             val arrayList = salesDao.getCategoryList()
             for (i in arrayList) {
                 if (salesDao.getCategoryDataMonth(
@@ -117,13 +112,12 @@ class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
                     ) != 0
                 ) {
                     dataset.add(
-                        SimplePieChart.Slice(
-                            (Math.random() * 16777215).toInt() or (0xFF shl 24),
+                       Slice(
                             salesDao.getCategoryDataMonth(
                                 String.format("%02d", month_to),
                                 year,
                                 i.category_name
-                            ).toFloat(),
+                            ).toFloat().toInt(),
                             i.category_name
                         )
                     )
@@ -134,7 +128,8 @@ class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
                     )
                 }
             }
-            addDataset(awesomePieChart!!, dataset as ArrayList<SimplePieChart.Slice>)
+            Graphs().setPieChartView(dataset, requireView().findViewById<ComposeView>(R.id.piechart), requireContext())
+
 
         }
     }
@@ -146,14 +141,13 @@ class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
             val salesDao =
                 AppDatabase.salesDao()
 
-            val dataset = ArrayList<SimplePieChart.Slice>()
+            val dataset = ArrayList<Slice>()
             val arrayList = salesDao.getCategoryList()
             for (i in arrayList) {
                 if (salesDao.getCategoryDataYear(year, i.category_name) != 0) {
                     dataset.add(
-                        SimplePieChart.Slice(
-                            (Math.random() * 16777215).toInt() or (0xFF shl 24),
-                            salesDao.getCategoryDataYear(year, i.category_name).toFloat(),
+                       Slice(
+                            salesDao.getCategoryDataYear(year, i.category_name).toFloat().toInt(),
                             i.category_name
                         )
                     )
@@ -171,7 +165,8 @@ class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
                     )
                 }
             }
-            addDataset(awesomePieChart!!, dataset as ArrayList<SimplePieChart.Slice>)
+            Graphs().setPieChartView(dataset, requireView().findViewById<ComposeView>(R.id.piechart), requireContext())
+
 
         }
     }
@@ -190,7 +185,7 @@ class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
 
         }
         else{
-            awesomePieChart!!.removeAllSices()
+
             if (parent.selectedItem == "Yearly"){
                 GlobalScope.launch {
                     val years = AppDatabase.salesDao().getYears()
@@ -246,13 +241,13 @@ class piechart_stats : Fragment(), AdapterView.OnItemSelectedListener {
 
         if (year_spinner.selectedItem == "Daily") {
 
-            awesomePieChart!!.removeAllSices()
+
             getDailyCategory(day)
         } else if (year_spinner.selectedItem == "Yearly") {
-            awesomePieChart!!.removeAllSices()
+
             getYearlyCategory(year)
         } else {
-            awesomePieChart!!.removeAllSices()
+
             getMonthlyCategory(month,year)
         }
 

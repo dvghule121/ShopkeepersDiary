@@ -6,75 +6,43 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.sb_stores.Utils.DateUtils
 import com.example.sb_stores.database.AppDatabase
 import com.example.sb_stores.database.DBFileProvider
 import com.example.sb_stores.database.Sales
 import com.example.sb_stores.database.Year
-import com.example.sb_stores.fragments.dashboard
-import com.example.sb_stores.fragments.stats
-import com.example.sb_stores.fragments.transaction_history
-import com.example.sb_stores.fragments.user_fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.io.File
-import java.net.URI
 import java.time.LocalDate
-import kotlin.collections.ArrayList
-import kotlin.io.path.toPath
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var resultLauncher : ActivityResultLauncher<Intent>
+    lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var navController: NavController
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//            if (result.resultCode == Activity.RESULT_OK) {
-//                // There are no request codes
-//                val data: Intent? = result.data
-//                val uri = data!!.data!!
-//                val urinew = URI.create(uri.toString())
-//
-//
-//                Log.d("TAG", "onActivityResult: Working $urinew")
-//                    DBFileProvider().importDatabaseFile(this, urinew.toPath().toString())
-//
-//
-//            }
-//        }
+
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView.setOnNavigationItemSelectedListener {
 
-            when (it.itemId) {
-                R.id.home -> change(dashboard())
-                R.id.transaction -> change(transaction_history())
-                R.id.goal -> change(stats())
-                R.id.user -> change(user_fragment())
-
-            }
-            true
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
 
-        }
-        val manager: FragmentManager =
-            supportFragmentManager //create an instance of fragment manager
-        val transaction: FragmentTransaction =
-            manager.beginTransaction() //create an instance of Fragment-transaction
-        transaction.replace(R.id.thisgg, dashboard(), "Frag_Top_tag")
-        transaction.commit()
+        bottomNavigationView.setupWithNavController(navController)
 
 
         GlobalScope.launch {
@@ -82,15 +50,16 @@ class MainActivity : AppCompatActivity() {
 
             val daily_sale = database.salesDao().getData()
             if (daily_sale.isEmpty()) {
-                for (i in createYearDataset(LocalDate.now().year)){
+                for (i in createYearDataset(LocalDate.now().year)) {
                     Log.d("TAG", "onCreate: date addinf")
-                    database.salesDao().insertData(Sales(DateUtils().getDate(i), 0,0))
+                    database.salesDao().insertData(Sales(DateUtils().getDate(i), 0, 0))
                 }
                 database.salesDao().insertYearData(Year(LocalDate.now().year.toString(), 0))
 
-            }
-            else if (database.salesDao().getYears().last().date != LocalDate.now().year.toString()){
-                for (i in createYearDataset(LocalDate.now().year)){
+            } else if (!database.salesDao().getYears()
+                    .contains(Year(LocalDate.now().year.toString(), 0))
+            ) {
+                for (i in createYearDataset(LocalDate.now().year)) {
                     Log.d("TAG", "onCreate: date addinf")
                     database.salesDao().insertData(Sales(DateUtils().getDate(i), 0, 0))
                 }
@@ -105,17 +74,19 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun change(toFragment: Fragment) {
-        val manager: FragmentManager =
-            supportFragmentManager //create an instance of fragment manager
-        val transaction: FragmentTransaction =
-            manager.beginTransaction() //create an instance of Fragment-transaction
-        transaction.replace(R.id.thisgg, toFragment, "Frag_Top_tag")
-        transaction.commit()
+    fun change(toFragment: Int, bundle:Bundle = Bundle()) {
+        runOnUiThread {
+            navController.navigate(toFragment, bundle)
+        }
+
+    }
+
+    fun requestDb(): AppDatabase {
+        return AppDatabase.getDatabase(this)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun createYearDataset(year: Int) : ArrayList<LocalDate>{
+    fun createYearDataset(year: Int): ArrayList<LocalDate> {
 
         val datalist = ArrayList<LocalDate>()
 
@@ -150,10 +121,7 @@ class MainActivity : AppCompatActivity() {
         return datalist
     }
 
-    fun getfile(){
-//        val pickFromGallery = Intent(Intent.ACTION_GET_CONTENT)
-//        pickFromGallery.type = "*/*"
-//        resultLauncher.launch(pickFromGallery)
+    fun getfile() {
 
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
@@ -168,17 +136,11 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == 111 && resultCode == Activity.RESULT_OK) {
             val uri: Uri? = data?.data
             if (uri != null) {
-                DBFileProvider().importDatabaseFile(this, this,uri)
+                DBFileProvider().importDatabaseFile(this, this, uri)
             }
 
         }
     }
-
-
-
-
-
-
 
 
 }

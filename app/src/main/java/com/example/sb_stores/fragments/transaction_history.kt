@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.sb_stores.MainActivity
 import com.example.sb_stores.R
 import com.example.sb_stores.Utils.DateUtils
 import com.example.sb_stores.adapters.MyAdapter
+import com.example.sb_stores.databinding.FragmentTransactionHistoryBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import java.time.LocalDate
@@ -102,13 +104,6 @@ class transaction_history :  Fragment() {
             adapter.setData(dateList)
         }
 
-
-
-
-
-
-
-
         viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
 
         tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -155,7 +150,7 @@ class transaction_history :  Fragment() {
 
         view.findViewById<FloatingActionButton>(R.id.create_transaction).setOnClickListener {
             val act = activity as MainActivity
-            act.change(create_transaction())
+            act.change(R.id.action_transactionHistoryFragment_to_create_transaction2)
 
         }
 

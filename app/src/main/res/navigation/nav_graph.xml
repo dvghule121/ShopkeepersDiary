@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.sb_stores.fragments.dashboard"
+        android:label="DashboardFragment"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_create_transaction2"
+            app:destination="@id/create_transaction2" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/transactionHistoryFragment"
+        android:name="com.example.sb_stores.fragments.transaction_history"
+        android:label="TransactionHistoryFragment"
+        tools:layout="@layout/fragment_transaction_history" >
+        <action
+            android:id="@+id/action_transactionHistoryFragment_to_create_transaction2"
+            app:destination="@id/create_transaction2" />
+        <action
+            android:id="@+id/action_transactionHistoryFragment_to_transaction_details"
+            app:destination="@id/transaction_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.example.sb_stores.fragments.stats"
+        android:label="StatsFragment"
+        tools:layout="@layout/fragment_sale_stats" />
+
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.example.sb_stores.fragments.user_fragment"
+        android:label="UserFragment"
+        tools:layout="@layout/fragment_user_fragment" />
+    <fragment
+        android:id="@+id/create_transaction2"
+        android:name="com.example.sb_stores.fragments.create_transaction"
+        android:label="fragment_create_transaction"
+        tools:layout="@layout/fragment_create_transaction" >
+        <action
+            android:id="@+id/action_create_transaction2_to_transactionHistoryFragment"
+            app:destination="@id/transactionHistoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transaction_details"
+        android:name="com.example.sb_stores.fragments.transaction_details"
+        android:label="fragment_transaction_details"
+        tools:layout="@layout/fragment_transaction_details" >
+        <action
+            android:id="@+id/action_transaction_details_to_transactionHistoryFragment"
+            app:destination="@id/transactionHistoryFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+
+    </fragment>
+
+</navigation>

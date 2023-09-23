@@ -2,6 +2,8 @@ package com.example.sb_stores.Utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -73,5 +75,11 @@ class DateUtils {
     fun toLocalDate(date: String): LocalDate? {
         val d = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"))
         return d
+    }
+
+    fun formatAmount(amount: Double): String {
+        val formatter = NumberFormat.getNumberInstance(Locale("en", "IN")) as DecimalFormat
+        formatter.applyPattern("#,##,##0")
+        return formatter.format(amount)
     }
 }

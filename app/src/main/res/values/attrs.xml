@@ -14,7 +14,7 @@
     </declare-styleable>
 
     <style name="SB_Theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:text">@style/PrimaryText</item>
+        <item name="android:text">@style/Title</item>
     </style>
 
 </resources>

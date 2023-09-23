@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        style="@style/Cards"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -32,7 +32,7 @@
                 android:layout_marginTop="48dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/habbits_card_bg"
-                android:fontFamily="@font/baloo_bhai"
+                android:fontFamily="@font/rammetto_one"
                 android:hint="Category Name"
                 android:padding="15dp"
                 android:textAlignment="viewStart"
@@ -48,7 +48,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="4dp"
                 android:layout_marginBottom="32dp"
-                android:fontFamily="@font/baloo_bhai"
+                android:fontFamily="@font/rammetto_one"
                 android:text="add"
                 android:textColor="#FFFFFF"
                 app:cornerRadius="10dp"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="38dp"
-                android:fontFamily="@font/baloo_bhai"
+                android:fontFamily="@font/rammetto_one"
                 android:text="Category"
                 android:textAlignment="center"
                 android:textColor="#8D6E63"
